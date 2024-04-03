@@ -19,7 +19,7 @@ const userSchema = new Schema({
   },
   profilePicture:{
     type: String,
-    default: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.dreamstime.com%2Fdefault-avatar-profile-icon-vector-user-image-image179582665&psig=AOvVaw1y4JCtcnC6yC_Fa10t6fcy&ust=1712227644436000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCJCy55bvpYUDFQAAAAAdAAAAABAJ",
+    default: "https://cdn.stealthoptional.com/images/ncavvykf/stealth/f60441357c6c210401a1285553f0dcecc4c4489e-564x564.jpg?w=450&h=450&auto=format",
   },
 },
 {
