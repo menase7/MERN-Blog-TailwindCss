@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import authRoute from './routes/auth.route.js';
-import cookieParser from 'cookie-parser'
+import cookieParser from 'cookie-parser';
 
 
 
@@ -20,8 +20,8 @@ mongoose.connect(process.env.MONGODB)
   });
 
 const app = express();
-app.use(express.json());
 app.use(cookieParser());
+app.use(express.json());
 app.use(cors());
 
 app.listen(PORT, () => {
