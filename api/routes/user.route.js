@@ -1,8 +1,9 @@
 import expres from 'express'
+import { verifyToken } from '../utils/verifyUser';
 
 const router = expres.Router();
 
+router.put('/update/:userId',verifyToken, updateUser);
 
 export default router;
 
-//write code for adding 100 number in javascript
