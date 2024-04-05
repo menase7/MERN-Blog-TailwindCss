@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux'
 // import logout from '../redux/store'
 // import { useNavigate } from "react-router-dom";
 import { toggleTheme } from '../redux/theme/themeSlice'
+import { signoutSuccess } from "../redux/user/userSlice";
 
 
 const Header = () => {
@@ -13,12 +14,24 @@ const Header = () => {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const {currentUser} = useSelector(state => state.user);
-  const {theme} = useSelector((state)=>state.theme)
+  const {theme} = useSelector((state)=>state.theme);
+ 
 
-  // const Logout = async () => {
-  //   dispatch(logout());
-  //   navigate('/signin');
-  // }
+  const handleSignout = async () => {
+    try {
+      const res = await fetch('/api/user/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
       <Navbar className="border-b-2">
@@ -39,7 +52,7 @@ const Header = () => {
         <div className="flex gap-2 md:order-2">
           <Button className="w-12 h-10 hidden sm:inline" color="gray" pill onClick={()=>dispatch(toggleTheme())} >
             {
-              theme==='light' ? <FaSun /> : <FaMoon />
+              theme==='light' ? <FaSun className="" /> : <FaMoon className="" />
             }
           </Button>
           {
@@ -61,7 +74,7 @@ const Header = () => {
                      <DropdownItem>Profile</DropdownItem>
                     </Link>
                     <DropdownDivider />
-                    <DropdownItem>Sign out</DropdownItem>
+                    <DropdownItem onClick={handleSignout}>Sign out</DropdownItem>
               </Dropdown>
             ):
           (

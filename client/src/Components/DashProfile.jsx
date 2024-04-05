@@ -17,6 +17,7 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
+  signoutSuccess
 } from "../redux/user/userSlice";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
@@ -38,10 +39,11 @@ const DashProfile = () => {
     const file = e.target.files[0];
     if (file) {
       setImageFile(file);
-      setImageFileUrl(URL.createObjectURL(false));
+      setImageFileUrl(URL.createObjectURL(file));
     }
     setImageFile(e.target.files[0]);
   };
+  
 
   useEffect(() => {
     if (imageFile) {
@@ -81,7 +83,7 @@ const DashProfile = () => {
         setImageFile(null);
         setImageFileUrl(null);
         setImageFileUploading(false);
-      },
+      }, 
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageFileUrl(downloadURL);
@@ -115,9 +117,18 @@ const DashProfile = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          profilePicture: imageFileUrl || currentUser.profilePicture,
+        }),
       });
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch (error) {
+        setUpdateUserError("Server error. Please try again later.");
+        return;
+      }
       if (!res.ok) {
         dispatch(updateFailure(data.message));
         setUpdateUserError(data.message);
@@ -130,6 +141,7 @@ const DashProfile = () => {
       setUpdateUserError(error.message);
     }
   };
+  
 
   const handleDeleteUser = async () => {
     setShowModal(false);
@@ -146,6 +158,22 @@ const DashProfile = () => {
       }
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
+    }
+  };
+
+  const handleSignout = async () => {
+    try {
+      const res = await fetch('/api/user/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
@@ -224,7 +252,7 @@ const DashProfile = () => {
         <span onClick={() => setShowModal(true)} className="cursor-pointer">
           Delete account
         </span>
-        <span className="cursor-pointer">Sign out</span>
+        <span onClick={handleSignout} className="cursor-pointer">Sign out</span>
       </div>
       {updateUserSuccess && (
         <Alert color="success" className="mt-5">
@@ -243,7 +271,7 @@ const DashProfile = () => {
         </Alert>
       )}
 
-      <Modal show={showModal} onClose={() => setShowModal} popup size="md">
+      <Modal show={showModal} onClose={() => setShowModal(false)} popup size="md">
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">
