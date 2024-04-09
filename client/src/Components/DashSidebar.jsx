@@ -80,7 +80,7 @@ function DashSidebar() {
             }
             <Sidebar.Item
               icon={HiArrowSmRight}
-              label={"user"}
+              label={currentUser.isAdmin ? 'Admin' : 'User'}
               className="cursor-pointer"
               onClick={handleSignout}
             >
