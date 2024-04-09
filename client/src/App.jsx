@@ -17,13 +17,14 @@ import ScrollToTop from './Components/ScrollToTop';
 const App = () => {
   return (
     <BrowserRouter>
-     <ScrollToTop>
+     <ScrollToTop />
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/about' element={<About />} />
         <Route path='/sign-up' element={<SignUp />} />
+        <Route path='/sign-in' element={<SignIn />} />
         <Route element={<PrivateRoute />} >
           <Route path='projects' element={<Dashboard />} />
         </Route>
@@ -31,12 +32,10 @@ const App = () => {
           <Route path='/create-post' element={<CreatePost />} />
           <Route path='/update-post/:postId' element={<UpdatePost />} />
         </Route>
-        <Route path='/sign-in' element={<SignIn />} />
         <Route path='/projects' element={<Projects />} />
         <Route path='/post/:postSlug' element={<PostPage />} />
       </Routes>
       <Footer />
-      </ScrollToTop>
     </BrowserRouter>
   )
 }
