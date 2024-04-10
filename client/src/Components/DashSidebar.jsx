@@ -1,6 +1,6 @@
 import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiDocument, HiOutlineUserGroup, HiUser } from "react-icons/hi";
+import { HiAnnotation, HiDocument, HiOutlineUserGroup, HiUser } from "react-icons/hi";
 import { HiArrowSmRight } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,7 +51,7 @@ function DashSidebar() {
             >
               Profile
             </Sidebar.Item>
-            </Link>
+          </Link>
             {
               currentUser.isAdmin && (
                 <Link to="/dashboard?tab=posts">
@@ -65,19 +65,28 @@ function DashSidebar() {
             </Link>
               )
             }
-            {
-              currentUser.isAdmin && (
-                <Link to="/dashboard?tab=users">
-              <Sidebar.Item
-                active={tab === 'users'}
-                icon={HiOutlineUserGroup}
-                as='div'
-              >
-                Users
-              </Sidebar.Item>
-            </Link>
-              )
-            }
+             {currentUser.isAdmin && (
+            <>
+              <Link to='/dashboard?tab=users'>
+                <Sidebar.Item
+                  active={tab === 'users'}
+                  icon={HiOutlineUserGroup}
+                  as='div'
+                >
+                  Users
+                </Sidebar.Item>
+              </Link>
+              <Link to='/dashboard?tab=comments'>
+                <Sidebar.Item
+                  active={tab === 'comments'}
+                  icon={HiAnnotation}
+                  as='div'
+                >
+                  Comments
+                </Sidebar.Item>
+              </Link>
+            </>
+          )}
             <Sidebar.Item
               icon={HiArrowSmRight}
               label={currentUser.isAdmin ? 'Admin' : 'User'}
