@@ -5,7 +5,7 @@ import { deleteUser, updateUser, signout, getusers, getUser } from '../controlle
 const router = express.Router();
 
 router.get('/getusers', verifyToken, getusers);
-router.get(':userId', getUser)
+router.get('/:userId', getUser);
 router.put('/update/:userId', verifyToken, updateUser);
 router.delete('/delete/:userId', verifyToken, deleteUser);
 router.post('/signout', signout);

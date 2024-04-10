@@ -11,7 +11,6 @@ export default function PostPage() {
   const [post, setPost] = useState(null);
 
   useEffect(()=>{
-    console.log(postSlug);
     const fetchPost = async () => {
       try {
         setLoading(true);
