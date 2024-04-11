@@ -12,7 +12,6 @@ import path from 'path';
 
 dotenv.config();
 
-const PORT = process.env.PORT || 3001;
 
 mongoose.connect(process.env.MONGODB)
   .then(() => {
@@ -29,8 +28,8 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cors());
 
-app.listen(PORT, () => {
-  console.log(`server is running on port ${PORT}`);
+app.listen(3001, () => {
+  console.log(`server is running on port 3001`);
 });
 
 app.use('/api/auth', authRoute);
