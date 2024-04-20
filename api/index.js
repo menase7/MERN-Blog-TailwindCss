@@ -8,6 +8,10 @@ import postRoute from './routes/post.route.js'
 import commentRoute from './routes/comment.route.js'
 import cookieParser from 'cookie-parser';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
  
 
 dotenv.config();
@@ -21,7 +25,6 @@ mongoose.connect(process.env.MONGODB)
     console.log(err);
   });
 
-const __dirname = path.resolve();
 
 const app = express();
 app.use(cookieParser());
@@ -37,12 +40,12 @@ app.use('/api/user', userRoute);
 app.use('/api/post', postRoute);
 app.use('/api/comment', commentRoute);
 
-app.use(express.static(path.join(__dirname, 'client', 'dist')));
+app.use(express.static(path.join(__dirname, '/client/dist')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, '/client/dist/index.html'));
 });
-
+ 
 
 app.use((err, req, res, next)=>{
   const statusCode = err.statusCode || 500;
